@@ -58,3 +58,36 @@ eBPF powers a growing ecosystem of tools and use cases including:
 - **Real-time monitoring and troubleshooting**
 
 The possibilities with eBPF are limitless, and this is just the beginning of its transformative impact on the operating system landscape.
+## Hook Overview
+
+eBPF programs are event-driven — they are triggered when a specific hook point in the kernel or application is reached. These predefined hook points include:
+
+- System calls
+- Function entry and exit
+- Kernel tracepoints
+- Network packet events
+- And many more
+
+When these events occur, the attached eBPF program is executed within the kernel in a secure and efficient manner.
+
+If a required hook does not exist, custom hook points can be created using:
+
+- **kprobes**: Attach to any kernel function
+- **uprobes**: Attach to user-space application functions
+
+This gives developers fine-grained control over where and how they observe and interact with system behavior.
+
+### 📊 Visual Representation
+
+1. **eBPF Execution Pipeline**:
+   - Event occurs → eBPF program gets triggered
+   - Verified for safety
+   - JIT compiled for performance
+   - Executed securely in kernel context
+
+2. **Hook Types**:
+   - Syscall hooks from user applications
+   - kprobes and tracepoints from the kernel
+   - XDP/Traffic Control hooks for networking
+
+This flexibility allows eBPF to observe and control system behavior at almost any level — from user apps to the kernel and networking layers.
