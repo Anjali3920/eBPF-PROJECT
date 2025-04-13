@@ -91,3 +91,12 @@ This gives developers fine-grained control over where and how they observe and i
    - XDP/Traffic Control hooks for networking
 
 This flexibility allows eBPF to observe and control system behavior at almost any level — from user apps to the kernel and networking layers.
+# 🚀 Loader & Verification Architecture
+
+1. Tumne pseudo-C eBPF likha → "trace karo jab `open()` syscall chale"
+2. Compile kiya → bytecode bana
+3. bpf() syscall ke through load kiya
+4. Kernel verifier ne check kiya → OK diya
+5. JIT ne fast native code banaya
+6. Hook pe attach ho gaya
+7. Jab bhi `open()` syscall trigger hoga → tumhara program chalega ✅
