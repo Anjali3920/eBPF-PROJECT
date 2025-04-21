@@ -100,3 +100,105 @@ This flexibility allows eBPF to observe and control system behavior at almost an
 5. JIT ne fast native code banaya
 6. Hook pe attach ho gaya
 7. Jab bhi `open()` syscall trigger hoga → tumhara program chalega ✅
+
+
+
+
+
+
+
+
+
+a. eBPF Programs and Maps
+
+eBPF Programs wo chhote-chhote C code hote hain jo Linux kernel ke andar run hote hain bina kernel ko modify kiye.
+
+Ye code specific “hook points” par run hota hai jaise file read/write, network packet receive/send, syscalls, etc.
+
+eBPF Maps ek special memory structure hota hai jisme eBPF program apna data temporarily store karta hai.
+
+Jaise agar aapko syscall ka count rakhna ho, to map mein counter increment hoga.
+
+Maps ko userspace program se access bhi kiya ja sakta hai.
+
+
+b. Hook Points
+
+Ye wo jagah hain jahan aapka eBPF code attach hota hai. Bahut saare hook points hote hain:
+
+Kprobes / Kretprobes – Kernel ke function call ke aage/baad attach hote hain.
+
+Uprobes / Uretprobes – User space program ke functions pe attach karne ke liye.
+
+Tracepoints – Predefined hooks hote hain kernel mein (jaise sys_enter, net_dev_xmit, etc.)
+
+XDP (eXpress Data Path) – Extremely fast networking hooks for packet filtering.
+
+TC (Traffic Control) – Network packet processing for ingress/egress at interface level.
+
+Socket Filters – Jaise tcpdump, raw packets inspect karne ke liye.
+
+
+c. eBPF Verifier
+
+Ye kernel ka component hai jo ensure karta hai ki eBPF program safe ho.
+
+Agar program infinite loop mein chala gaya ya memory galat access kari to system crash ho sakta tha.
+
+Verifier ensure karta hai:
+
+Program loop-free ho.
+
+Memory access valid ho.
+
+CPU registers ka sahi use ho raha ho.
+
+d. Userspace vs Kernelspace
+
+Kernelspace mein eBPF program run hota hai – ye high-performance dete hain kyunki ye directly OS ke andar kaam karte hain.
+
+Userspace se hum ye program load, manage, aur map access kar sakte hain using tools like bpftool, bcc, ya libbpf.
+
+
+e. libbpf & BPF CO-RE
+
+libbpf: C library jo userspace se eBPF program load karne mein madad karti hai.
+
+BPF CO-RE (Compile Once, Run Everywhere): Aap ek baar eBPF program compile karte ho aur ye har compatible kernel pe chalega bina modify kiye.
+
+Ye kernel version specific dependency hata deta hai
+
+2. Tools Used in eBPF – 
+a. BCC (BPF Compiler Collection)
+
+Python based toolkit hai.
+
+Easy to use, beginners ke liye best.
+
+Pre-built examples jaise execsnoop, opensnoop, tcpconnect etc.
+
+
+b. bpftrace
+
+High-level language hai scripting ke liye.
+
+Similar to awk/sed syntax – easy to write tracing scripts.
+
+Real-time observability ke liye best tool hai.
+
+
+c. libbpf
+
+C developers ke liye low-level control deta hai.
+
+Production systems mein use hota hai (e.g., Cilium, Katran by Meta).
+
+
+d. bpftool
+
+Command-line tool hai.
+
+eBPF program inspect, attach, detach, log check, map manage, sab kuch kar sakte ho.
+
+Command example: bpftool prog show, bpftool map dump id 42
+
